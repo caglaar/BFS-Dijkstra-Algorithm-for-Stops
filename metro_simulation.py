@@ -1,6 +1,6 @@
 from collections import defaultdict, deque
 import heapq
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Tuple, Optional
 
 class Istasyon:
     def __init__(self, idx: str, ad: str, hat: str):
@@ -47,22 +47,23 @@ class MetroAgi:
             return None
         baslangic = self.istasyonlar[baslangic_id]
         hedef = self.istasyonlar[hedef_id]
-        ziyaret_edildi = {baslangic}        
-        kuyruk = deque([(baslangic, [baslangic])])
-        while kuyruk:
-            mevcut, yol = kuyruk.popleft()
+        visited = {baslangic}                                        # Ziyaret edilen istasyonları tutan liste
+        queue = deque([(baslangic, [baslangic])])                    # BFS için kuyruk, (istasyon, yol) tuple'ı ile başlatıyorum
+
+        while queue:
+            now, way = queue.popleft()                               # Kuyruktan istasyonu ve o ana kadar olan yolu buluyorum
             
-            if mevcut == hedef:
-                return yol
+            if now == hedef:                                         # Hedef istasyona ulaşıldıysa rotayı geri döndürüyroum
+                return way
 
-            ziyaret_edildi.add(mevcut)
+            visited.add(now)                                         # Şu anki istasyonu ziyaret edildi olarak işaretliyorum
 
-            for komsu, _ in mevcut.komsular:
-                if komsu not in ziyaret_edildi:
-                    kuyruk.append((komsu, yol + [komsu]))
-                    ziyaret_edildi.add(komsu)
+            for neighbour, _ in now.komsular:                        # Komşu istasyonları döngü ile gezme işlemi
+                if neighbour not in visited:                         # Ziyaret edilmemişse kuyruğa ekleliyorum
+                    queue.append((neighbour, way + [neighbour]))     # Komşuyu ve yol güncellemesini kuyruğa ekleme işlemi
+                    visited.add(neighbour)                           # Komşuyu ziyaret edildi olarak işaretliyorum
     
-        return None
+        return None                                                  # Hedefe ulaşılamadıysa None döndürüyorum
 
     def en_hizli_rota_bul(self, baslangic_id: str, hedef_id: str) -> Optional[Tuple[List[Istasyon], int]]:
         """A* algoritması kullanarak en hızlı rotayı bulur
@@ -84,23 +85,24 @@ class MetroAgi:
 
         baslangic = self.istasyonlar[baslangic_id]
         hedef = self.istasyonlar[hedef_id]
-        pq = [(0, id(baslangic), baslangic, [baslangic])]
-        ziyaret_edildi = {}
+        priority_queue = [(0, id(baslangic), baslangic, [baslangic])]      # Öncelik kuyruğu (toplam_sure, id, istasyon, yol) tuple'ları ile başlatıyorum
+        visited = {}                                                       # İstasyona minimum sürede ulaşma durumunu tutmak için liste
 
-        while pq:
-            toplam_sure, _, mevcut, yol = heapq.heappop(pq)
+        while priority_queue:
+            total_time, _, now, way = heapq.heappop(priority_queue)        # En düşük süreli yolu kuyruğun belirleme
 
-            if mevcut == hedef:
-                return (yol, toplam_sure)
+            if now == hedef:                                               # Hedef istasyona ulaşıldıysa yolu ve toplam süreyi döndürüyorum
+                return (way, total_time)
 
-            if mevcut in ziyaret_edildi and ziyaret_edildi[mevcut] <= toplam_sure:
-                continue
+            if now in visited and visited[now] <= total_time:
+                continue                                                   # Daha kısa bir sürede zaten bu istasyona ulaşıldıysa atlalıyorum
 
-            ziyaret_edildi[mevcut] = toplam_sure
+            visited[now] = total_time                                      # Bulunduğu istasyonun süreyi toplam süreyi kaydediyorum.
 
-            for komsu, sure in mevcut.komsular:
-                yeni_sure = toplam_sure + sure
-                heapq.heappush(pq, (yeni_sure, id(komsu), komsu, yol + [komsu]))
+            for neighbour, time in now.komsular:                           # Komşu istasyonları gezme işlemi
+                new_time = total_time + time                               # Komşuya gitmenin yeni toplam süresi
+                # Yeni durumu öncelik kuyruğuna ekle (daha az süreliler öncelikli olacak şekilde)
+                heapq.heappush(priority_queue, (new_time, id(neighbour), neighbour, way + [neighbour]))
         
         return None
 
