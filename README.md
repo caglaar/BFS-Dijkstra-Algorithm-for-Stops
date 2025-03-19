@@ -53,16 +53,18 @@ En az aktarmalı rota: AŞTİ -> Kızılay -> Kızılay -> Ulus -> Demetevler ->
 En hızlı rota (17 dakika): AŞTİ -> Kızılay -> Ulus -> Demetevler -> OSB
 
 ## 🚀 Projeyi Geliştirme Fikirleri
-Gerçek bir A* algoritması implementasyonu yapılabilir. Örneğin, istasyonlar arası coğrafi mesafeye dayalı bir "heuristic" eklenerek rota hesaplama süresi daha da optimize edilebilir.
+  - Gerçek bir A* algoritması implementasyonu yapılabilir. Örneğin, istasyonlar arası coğrafi mesafeye dayalı bir "heuristic" eklenerek rota hesaplama süresi daha da optimize edilebilir.
 
-Metro ağı verisi sabit kodlanmak yerine JSON dosyası veya veritabanı gibi dış kaynaklardan dinamik olarak alınabilir.
+  - Metro ağı verisi sabit kodlanmak yerine JSON dosyası veya veritabanı gibi dış kaynaklardan dinamik olarak alınabilir.
 
-Görsel arayüz (GUI) geliştirilebilir. PyQt, Tkinter veya web tabanlı bir arayüzle metro hattı ve rotalar harita üzerinde gösterilebilir.
+  - Görsel arayüz (GUI) geliştirilebilir. PyQt, Tkinter veya web tabanlı bir arayüzle metro hattı ve rotalar harita üzerinde gösterilebilir.
 
-İstasyonlar için yoğunluk ve trafik simülasyonu eklenebilir. Yoğun saatlerde hatların daha yavaş çalıştığı veya bekleme sürelerinin arttığı durumlar simüle edilebilir.
+  - İstasyonlar için yoğunluk ve trafik simülasyonu eklenebilir. Yoğun saatlerde hatların daha yavaş çalıştığı veya bekleme sürelerinin arttığı durumlar simüle edilebilir.
 
-Hata toleransı veya "kapalı hat/istasyon" senaryoları eklenerek bakım veya arıza durumunda alternatif rotalar sunulabilir.
+  - Hata toleransı veya "kapalı hat/istasyon" senaryoları eklenerek bakım veya arıza durumunda alternatif rotalar sunulabilir.
 
-Ücret hesaplama modülü eklenebilir. Rotaların uzunluğuna veya aktarma sayılarına göre bilet ücreti dinamik olarak hesaplanabilir.
+  - Ücret hesaplama modülü eklenebilir. Rotaların uzunluğuna veya aktarma sayılarına göre bilet ücreti dinamik olarak hesaplanabilir.
 
-REST API veya web servisi haline getirilerek rota sorgularının dış sistemler tarafından da yapılması sağlanabilir.
+  - REST API veya web servisi haline getirilerek rota sorgularının dış sistemler tarafından da yapılması sağlanabilir.
+
+  - Gerçek dünya uygulamaları: Trendyol, Getir, Yemeksepeti gibi e-ticaret ve kargo/kurye sistemlerinde teslimat noktaları arasında en kısa sürede veya en az aktarma ile teslimat yapılmasını sağlayacak rota optimizasyon çözümleri bu algoritmalarla geliştirilebilir.
